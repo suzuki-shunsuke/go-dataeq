@@ -1,0 +1,69 @@
+---
+kind: pipeline
+name: durl
+clone:
+  depth: 1
+steps:
+- name: durl
+  image: quay.io/suzuki_shunsuke/durl:1.0.0
+  commands:
+  - sh scripts/durl.sh
+---
+kind: pipeline
+name: shell scripts
+clone:
+  depth: 1
+steps:
+- name: shellcheck
+  image: koalaman/shellcheck-alpine:v0.7.0
+  commands:
+  - shellcheck scripts/* githooks/*
+- name: shfmt
+  image: mvdan/shfmt:v3.0.0
+  commands:
+  - shfmt -d .
+---
+kind: pipeline
+name: yamllint
+steps:
+- name: yamllint
+  image: quay.io/suzuki_shunsuke/yamllint:1.20.0__1
+  commands:
+  - 'find . \( -name "*.yml" -o -name "*.yaml" \) -print0 | xargs -0 yamllint -c .yamllint.yml'
+---
+kind: pipeline
+name: build
+clone:
+  depth: 1
+volumes:
+- name: gopath
+  temp: {}
+steps:
+- name: download go modules
+  image: &image_go golang:1.13.6
+  commands:
+  - go mod download
+  volumes: &volumes
+  - name: gopath
+    path: /go
+  environment:
+    GOPATH: /go
+- name: golangci-lint
+  image: golangci/golangci-lint:v1.22.2-alpine
+  commands:
+  - golangci-lint run
+  volumes: *volumes
+  environment:
+    GOPATH: /go
+- name: codecov
+  image: *image_go
+  commands:
+  # bash and cgo seem to be required
+  - bash scripts/codecov-test.sh
+  - curl -s https://codecov.io/bash > /tmp/codecov.sh
+  - test "$LOCAL" = "true" -o "$DRONE_BUILD_EVENT" = "pull_request" || bash /tmp/codecov.sh
+  volumes: *volumes
+  environment:
+    GOPATH: /go
+    CODECOV_TOKEN:
+      from_secret: codecov_token
