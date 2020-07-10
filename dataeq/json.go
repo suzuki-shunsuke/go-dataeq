@@ -4,4 +4,4 @@ import (
 	"encoding/json"
 )
 
-var JSON = New(json.Marshal, json.Unmarshal)
+var JSON = New(json.Marshal, json.Unmarshal) //nolint:gochecknoglobals
