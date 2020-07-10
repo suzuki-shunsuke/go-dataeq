@@ -1,10 +1,11 @@
-package dataeq
+package dataeq_test
 
 import (
 	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
+	"github.com/suzuki-shunsuke/go-dataeq/dataeq"
 )
 
 func TestJSON_ConvertByte(t *testing.T) {
@@ -48,8 +49,9 @@ func TestJSON_ConvertByte(t *testing.T) {
 		},
 	}
 	for _, d := range data {
+		d := d
 		t.Run(d.title, func(t *testing.T) {
-			a, err := JSON.ConvertByte(d.b)
+			a, err := dataeq.JSON.ConvertByte(d.b)
 			if d.isError {
 				require.NotNil(t, err)
 				return
@@ -104,8 +106,9 @@ func TestJSON_Convert(t *testing.T) {
 		},
 	}
 	for _, d := range data {
+		d := d
 		t.Run(d.title, func(t *testing.T) {
-			a, err := JSON.Convert(d.x)
+			a, err := dataeq.JSON.Convert(d.x)
 			if d.isError {
 				require.NotNil(t, err)
 				return
@@ -162,8 +165,9 @@ func TestJSON_Equal(t *testing.T) {
 		},
 	}
 	for _, d := range data {
+		d := d
 		t.Run(d.title, func(t *testing.T) {
-			f, err := JSON.Equal(d.x, d.y)
+			f, err := dataeq.JSON.Equal(d.x, d.y)
 			if d.isError {
 				require.NotNil(t, err)
 				return
