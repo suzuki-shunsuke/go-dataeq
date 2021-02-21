@@ -30,7 +30,7 @@ func New(marshal Marshal, unmarshal Unmarshal) DataFormat {
 
 // Convert converts value to byte string and unmarshals the byte string to dst.
 // Convert can be used to normalize the value to compare with the other value.
-func (df *DataFormat) Convert(x interface{}, dst interface{}) error {
+func (df *DataFormat) Convert(x, dst interface{}) error {
 	if a, ok := x.([]byte); ok {
 		return df.unmarshal(a, dst)
 	}
