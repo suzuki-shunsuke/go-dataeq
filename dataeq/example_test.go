@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/suzuki-shunsuke/go-dataeq/dataeq"
+	"github.com/suzuki-shunsuke/go-dataeq/v2/dataeq"
 )
 
 type (
