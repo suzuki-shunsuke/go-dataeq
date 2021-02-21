@@ -1,5 +1,5 @@
 // Package dataeq allows to create API to compare two values as the data format such as JSON and YAML.
-// dataeq compare two values by the followin way.
+// dataeq compare two values by the following way.
 //
 // 1. convert value to a byte string by Marshal
 // 2. unmarshal a byte string to `interface{}` by Unmarshal
