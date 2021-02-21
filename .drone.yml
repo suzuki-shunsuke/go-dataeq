@@ -55,7 +55,7 @@ steps:
   image: golang:1.16.0
   commands:
   # bash and cgo seem to be required
-  - bash ci/test.sh "$DRONE_REPO_NAME"
+  - bash ci/test.sh "${DRONE_REPO_NAME}/v2"
   environment:
     CC_TEST_REPORTER_ID:
       from_secret: cc_test_reporter_id
