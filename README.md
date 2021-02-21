@@ -1,6 +1,6 @@
 # go-dataeq
 
-[![GoDoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](http://godoc.org/github.com/suzuki-shunsuke/go-dataeq/dataeq)
+[![Go Reference](https://pkg.go.dev/badge/github.com/suzuki-shunsuke/go-dataeq/v2/dataeq.svg)](https://pkg.go.dev/github.com/suzuki-shunsuke/go-dataeq/v2/dataeq)
 [![Build Status](https://cloud.drone.io/api/badges/suzuki-shunsuke/go-dataeq/status.svg)](https://cloud.drone.io/suzuki-shunsuke/go-dataeq)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ac6ec801bd05db18cd53/test_coverage)](https://codeclimate.com/github/suzuki-shunsuke/go-dataeq/test_coverage)
 [![Go Report Card](https://goreportcard.com/badge/github.com/suzuki-shunsuke/go-dataeq)](https://goreportcard.com/report/github.com/suzuki-shunsuke/go-dataeq)
