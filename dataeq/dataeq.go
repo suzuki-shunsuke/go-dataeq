@@ -28,40 +28,30 @@ func New(marshal Marshal, unmarshal Unmarshal) DataFormat {
 	}
 }
 
-// ConvertByte unmarshals a byte string to `interface{}`.
-func (df DataFormat) ConvertByte(b []byte) (interface{}, error) {
-	var d interface{}
-	err := df.unmarshal(b, &d)
-	if err == nil {
-		return d, nil
-	}
-	return nil, err
-}
-
-// Convert converts value to byte string and unmarshals the byte string to `interface{}`.
+// Convert converts value to byte string and unmarshals the byte string to dst.
 // Convert can be used to normalize the value to compare with the other value.
-func (df DataFormat) Convert(x interface{}) (interface{}, error) {
+func (df *DataFormat) Convert(x interface{}, dst interface{}) error {
 	if a, ok := x.([]byte); ok {
-		return df.ConvertByte(a)
+		return df.unmarshal(a, dst)
 	}
 	b, err := df.marshal(x)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return df.ConvertByte(b)
+	return df.unmarshal(b, dst)
 }
 
 // Equal returns true if two arguments are equal.
-func (df DataFormat) Equal(x, y interface{}) (bool, error) {
+func (df *DataFormat) Equal(x, y interface{}) (bool, error) {
 	if reflect.DeepEqual(x, y) {
 		return true, nil
 	}
-	a, err := df.Convert(x)
-	if err != nil {
+	var a interface{}
+	if err := df.Convert(x, &a); err != nil {
 		return false, err
 	}
-	b, err := df.Convert(y)
-	if err != nil {
+	var b interface{}
+	if err := df.Convert(y, &b); err != nil {
 		return false, err
 	}
 	return reflect.DeepEqual(a, b), nil

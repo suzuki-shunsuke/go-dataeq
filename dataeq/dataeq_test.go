@@ -8,60 +8,6 @@ import (
 	"github.com/suzuki-shunsuke/go-dataeq/dataeq"
 )
 
-func TestJSON_ConvertByte(t *testing.T) {
-	data := []struct {
-		title   string
-		b       []byte
-		isError bool
-		exp     interface{}
-	}{
-		{
-			title: "simple map",
-			b:     []byte(`{"foo": "bar"}`),
-			exp: map[string]interface{}{
-				"foo": "bar",
-			},
-		},
-		{
-			title: "simple array",
-			b:     []byte(`["foo", "bar"]`),
-			exp:   []interface{}{"foo", "bar"},
-		},
-		{
-			title: "simple int",
-			b:     []byte(`5`),
-			exp:   float64(5),
-		},
-		{
-			title: "simple string",
-			b:     []byte(`"hello"`),
-			exp:   "hello",
-		},
-		{
-			title: "simple null",
-			b:     []byte(`null`),
-			exp:   nil,
-		},
-		{
-			title:   "invalid JSON",
-			b:       []byte(`foo bar`),
-			isError: true,
-		},
-	}
-	for _, d := range data {
-		d := d
-		t.Run(d.title, func(t *testing.T) {
-			a, err := dataeq.JSON.ConvertByte(d.b)
-			if d.isError {
-				require.NotNil(t, err)
-				return
-			}
-			require.Nil(t, err)
-			require.Equal(t, d.exp, a)
-		})
-	}
-}
-
 type (
 	invalidMarshaler struct{}
 )
@@ -71,6 +17,7 @@ func (m *invalidMarshaler) MarshalJSON() ([]byte, error) {
 }
 
 func TestJSON_Convert(t *testing.T) {
+	t.Parallel()
 	data := []struct {
 		title   string
 		x       interface{}
@@ -108,7 +55,9 @@ func TestJSON_Convert(t *testing.T) {
 	for _, d := range data {
 		d := d
 		t.Run(d.title, func(t *testing.T) {
-			a, err := dataeq.JSON.Convert(d.x)
+			t.Parallel()
+			var a interface{}
+			err := dataeq.JSON.Convert(d.x, &a)
 			if d.isError {
 				require.NotNil(t, err)
 				return
@@ -119,7 +68,8 @@ func TestJSON_Convert(t *testing.T) {
 	}
 }
 
-func TestJSON_Equal(t *testing.T) {
+func TestJSON_Equal(t *testing.T) { //nolint:funlen
+	t.Parallel()
 	data := []struct {
 		title   string
 		x       interface{}
@@ -167,6 +117,7 @@ func TestJSON_Equal(t *testing.T) {
 	for _, d := range data {
 		d := d
 		t.Run(d.title, func(t *testing.T) {
+			t.Parallel()
 			f, err := dataeq.JSON.Equal(d.x, d.y)
 			if d.isError {
 				require.NotNil(t, err)
