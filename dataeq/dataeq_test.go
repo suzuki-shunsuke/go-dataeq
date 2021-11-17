@@ -68,7 +68,7 @@ func TestJSON_Convert(t *testing.T) {
 	}
 }
 
-func TestJSON_Equal(t *testing.T) { //nolint:funlen
+func TestJSON_DeepEqual(t *testing.T) { //nolint:funlen
 	t.Parallel()
 	data := []struct {
 		title   string
@@ -118,7 +118,7 @@ func TestJSON_Equal(t *testing.T) { //nolint:funlen
 		d := d
 		t.Run(d.title, func(t *testing.T) {
 			t.Parallel()
-			f, err := dataeq.JSON.Equal(d.x, d.y)
+			f, err := dataeq.JSON.DeepEqual(d.x, d.y)
 			if d.isError {
 				require.NotNil(t, err)
 				return

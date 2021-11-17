@@ -42,7 +42,23 @@ func (df *DataFormat) Convert(x, dst interface{}) error {
 }
 
 // Equal returns true if two arguments are equal.
-func (df *DataFormat) Equal(x, y interface{}) (bool, error) {
+func (df *DataFormat) Equal(x, y interface{}, equal func(interface{}, interface{}) (bool, error)) (bool, error) {
+	if reflect.DeepEqual(x, y) {
+		return true, nil
+	}
+	var a interface{}
+	if err := df.Convert(x, &a); err != nil {
+		return false, err
+	}
+	var b interface{}
+	if err := df.Convert(y, &b); err != nil {
+		return false, err
+	}
+	return equal(a, b)
+}
+
+// DeepEqual returns true if two arguments are equal.
+func (df *DataFormat) DeepEqual(x, y interface{}) (bool, error) {
 	if reflect.DeepEqual(x, y) {
 		return true, nil
 	}
@@ -55,4 +71,30 @@ func (df *DataFormat) Equal(x, y interface{}) (bool, error) {
 		return false, err
 	}
 	return reflect.DeepEqual(a, b), nil
+}
+
+func (df *DataFormat) Diff(x, y interface{}, diff func(interface{}, interface{}) (string, error)) (string, error) {
+	b, err := df.marshal(x)
+	if err != nil {
+		return "", err
+	}
+	var xInterface interface{}
+	if err := df.unmarshal(b, &xInterface); err != nil {
+		return "", err
+	}
+	var yInterface interface{}
+	if s, ok := y.(string); ok {
+		if err := df.unmarshal([]byte(s), &yInterface); err != nil {
+			return "", err
+		}
+	} else {
+		b, err := df.marshal(y)
+		if err != nil {
+			return "", err
+		}
+		if err := df.unmarshal(b, &yInterface); err != nil {
+			return "", err
+		}
+	}
+	return diff(xInterface, yInterface)
 }
