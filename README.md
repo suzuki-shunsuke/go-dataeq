@@ -5,7 +5,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ac6ec801bd05db18cd53/test_coverage)](https://codeclimate.com/github/suzuki-shunsuke/go-dataeq/test_coverage)
 [![Go Report Card](https://goreportcard.com/badge/github.com/suzuki-shunsuke/go-dataeq)](https://goreportcard.com/report/github.com/suzuki-shunsuke/go-dataeq)
 [![GitHub last commit](https://img.shields.io/github/last-commit/suzuki-shunsuke/go-dataeq.svg)](https://github.com/suzuki-shunsuke/go-dataeq)
-[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/suzuki-shunsuke/go-dataeq/master/LICENSE)
+[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/suzuki-shunsuke/go-dataeq/main/LICENSE)
 
 Go library to check if two values are equal as data format such as JSON.
 
