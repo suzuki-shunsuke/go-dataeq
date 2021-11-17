@@ -21,14 +21,14 @@ func checkResult(b bool, err error) {
 }
 
 func Example() {
-	b, err := dataeq.JSON.Equal(
+	b, err := dataeq.JSON.DeepEqual(
 		Foo{Foo: "bar"},
 		map[string]string{"foo": "bar"},
 	)
 	checkResult(b, err)
 
 	// when a type of value is []byte, it is treated as JSON string
-	b, err = dataeq.JSON.Equal(
+	b, err = dataeq.JSON.DeepEqual(
 		Foo{Foo: "bar"},
 		[]byte(`{"foo": "bar"}`),
 	)
