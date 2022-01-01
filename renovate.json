@@ -1,6 +1,6 @@
 {
   "extends": [
     "github>suzuki-shunsuke/renovate-config:golang",
-    "github>aquaproj/aqua-renovate-config"
+    "github>aquaproj/aqua-renovate-config#0.1.4"
   ]
 }
