@@ -1,7 +1,7 @@
 package dataeq_test
 
 import (
-	"fmt"
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -13,7 +13,7 @@ type (
 )
 
 func (m *invalidMarshaler) MarshalJSON() ([]byte, error) {
-	return nil, fmt.Errorf("failed to marshal")
+	return nil, errors.New("failed to marshal")
 }
 
 func TestJSON_Convert(t *testing.T) {
@@ -53,16 +53,15 @@ func TestJSON_Convert(t *testing.T) {
 		},
 	}
 	for _, d := range data {
-		d := d
 		t.Run(d.title, func(t *testing.T) {
 			t.Parallel()
 			var a interface{}
 			err := dataeq.JSON.Convert(d.x, &a)
 			if d.isError {
-				require.NotNil(t, err)
+				require.Error(t, err)
 				return
 			}
-			require.Nil(t, err)
+			require.NoError(t, err)
 			require.Equal(t, d.exp, a)
 		})
 	}
@@ -115,15 +114,14 @@ func TestJSON_DeepEqual(t *testing.T) { //nolint:funlen
 		},
 	}
 	for _, d := range data {
-		d := d
 		t.Run(d.title, func(t *testing.T) {
 			t.Parallel()
 			f, err := dataeq.JSON.DeepEqual(d.x, d.y)
 			if d.isError {
-				require.NotNil(t, err)
+				require.Error(t, err)
 				return
 			}
-			require.Nil(t, err)
+			require.NoError(t, err)
 			if d.exp {
 				require.True(t, f)
 			} else {
