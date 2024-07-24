@@ -1,3 +1,4 @@
+//nolint:dupword
 package dataeq_test
 
 import (
