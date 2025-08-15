@@ -5,5 +5,5 @@
 // 2. unmarshal a byte string to `interface{}` by Unmarshal
 // 3. compare two values by reflect.DeepEqual
 //
-// So dataeq requires two API for the data format, Marhsal and Unmarshal.
+// So dataeq requires two API for the data format, Marshal and Unmarshal.
 package dataeq
