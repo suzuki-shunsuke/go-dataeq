@@ -20,21 +20,21 @@ func TestJSON_Convert(t *testing.T) {
 	t.Parallel()
 	data := []struct {
 		title   string
-		x       interface{}
+		x       any
 		isError bool
-		exp     interface{}
+		exp     any
 	}{
 		{
 			title: "simple []byte map",
 			x:     []byte(`{"foo": "bar"}`),
-			exp: map[string]interface{}{
+			exp: map[string]any{
 				"foo": "bar",
 			},
 		},
 		{
 			title: "simple array",
 			x:     []string{"foo", "bar"},
-			exp:   []interface{}{"foo", "bar"},
+			exp:   []any{"foo", "bar"},
 		},
 		{
 			title: "simple int",
@@ -55,7 +55,7 @@ func TestJSON_Convert(t *testing.T) {
 	for _, d := range data {
 		t.Run(d.title, func(t *testing.T) {
 			t.Parallel()
-			var a interface{}
+			var a any
 			err := dataeq.JSON.Convert(d.x, &a)
 			if d.isError {
 				require.Error(t, err)
@@ -71,8 +71,8 @@ func TestJSON_DeepEqual(t *testing.T) { //nolint:funlen
 	t.Parallel()
 	data := []struct {
 		title   string
-		x       interface{}
-		y       interface{}
+		x       any
+		y       any
 		isError bool
 		exp     bool
 	}{

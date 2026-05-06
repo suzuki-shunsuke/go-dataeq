@@ -9,6 +9,8 @@ linters:
     - nlreturn
     - varnamelen
     - wsl
+    - wsl_v5
+    - noinlineerr
   exclusions:
     generated: lax
     presets:
@@ -20,6 +22,10 @@ linters:
       - third_party$
       - builtin$
       - examples$
+    rules:
+      - path: _test\.go
+        linters:
+          - goconst
 formatters:
   enable:
     - gci
