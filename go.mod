@@ -1,6 +1,6 @@
 module github.com/suzuki-shunsuke/go-dataeq/v2
 
-go 1.22.5
+go 1.25
 
 require github.com/stretchr/testify v1.11.1
 
